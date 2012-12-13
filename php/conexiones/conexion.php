@@ -5,11 +5,10 @@ date_default_timezone_set('America/Mexico_City');
 	$mysqli = new mysqli("localhost", "root", "", "curso");
 			  if (mysqli_connect_errno()) { printf("Conexion fallida: %s\n", mysqli_connect_error()); exit();}
 /*
-Cuando hagamos los include de conexion.php crearemos las querys de este modo:
+//Cuando hagamos los include de conexion.php crearemos las querys de este modo:
 $mysqli->query("SQL STATEMENT");
-*/
-/*
-Para tirar un while.
+
+//Para tirar un while.
 
 if ($result = $mysqli->query(" ")) {
     while ($a = $result->fetch_assoc()){
