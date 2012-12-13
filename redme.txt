@@ -1,0 +1,2 @@
+Sistema realizado en PHP
+Base de datos MySQL - SAM
