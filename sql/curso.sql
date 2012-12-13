@@ -1,10 +1,4 @@
--- --------------------------------------------------------
--- Host:                         surcueccsatc.admcablemas.net
--- Server version:               5.5.27 - MySQL Community Server (GPL)
--- Server OS:                    Win32
--- HeidiSQL version:             7.0.0.4206
--- Date/time:                    2012-12-13 15:00:56
--- --------------------------------------------------------
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
