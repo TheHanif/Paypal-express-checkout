@@ -1,57 +1,69 @@
-CREATE DATABASE IF NOT EXISTS `curso` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `curso`;
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+CREATE DATABASE IF NOT EXISTS `draftcourse` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `draftcourse`;
+
+CREATE TABLE IF NOT EXISTS `Student` (
+  `StudentId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `DisplayName` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `FirstName` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
+  `LastName1` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
+  `LastName2` varchar(80) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `StudentEmail` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `GenderId` tinyint(4) NOT NULL,
+  PRIMARY KEY (`StudentId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 COMMENT='contiene la informacion de alumnos';
 
 
+CREATE TABLE IF NOT EXISTS `Gender` (
+  `GenderId` tinyint(4) unsigned NOT NULL,
+  `DisplayName` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`GenderId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `alumnos` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(150) DEFAULT NULL,
-  `email` varchar(150) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='contiene la informacion de alumnos';
-
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `categoria` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='contiene las categorias';
-
-
-CREATE TABLE IF NOT EXISTS `cursos` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(100) DEFAULT NULL,
-  `descripcion` text,
-  `inicio` date DEFAULT NULL,
-  `publicado` datetime DEFAULT NULL,
-  `status` bit(1) DEFAULT NULL COMMENT '1 activo',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='contiene la relacion de los cursos';
+CREATE TABLE IF NOT EXISTS `Category` (
+  `CategoryId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ParentId` int(10) unsigned DEFAULT NULL COMMENT 'Para permitir sub-categorias infinitas si son necesarias a futuro',
+  `DisplayName` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`CategoryId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 COMMENT='contiene las categorias';
 
 
-CREATE TABLE IF NOT EXISTS `cursos_alumnos` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `idcurso` int(10) DEFAULT NULL,
-  `idalumno` int(10) DEFAULT NULL,
-  `aprovado` bit(1) DEFAULT NULL,
-  `calificacion` float DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='relacion Alumno con el curso que ha tomado';
+CREATE TABLE IF NOT EXISTS `course` (
+  `CourseId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `DisplayName` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `Description` text COLLATE utf8_unicode_ci,
+  `StartDate` date DEFAULT NULL,
+  `Issued` datetime DEFAULT NULL DEFAULT '1900-01-01 00:00:00',
+  `Status` bit(1) DEFAULT NULL COMMENT '1 activo',
+  PRIMARY KEY (`CourseId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 COMMENT='contiene la relacion de los cursos';
 
 
-CREATE TABLE IF NOT EXISTS `post` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(100) NOT NULL,
-  `publicado` datetime NOT NULL,
-  `autor` tinyint(4) NOT NULL,
-  `categoria` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tabla que contiene las publicaciones\r\ncategoria hace join con tabla categorias';
+CREATE TABLE IF NOT EXISTS `CourseStudent` (
+  `CourseStudentId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `CourseId` int(10) unsigned NOT NULL,
+  `StudentId` int(10) unsigned NOT NULL,
+  `Approved` bit(1) DEFAULT NULL,
+  `Score` float unsigned DEFAULT NULL,
+  PRIMARY KEY (`CourseStudentId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 COMMENT='relacion Alumno con el curso que ha tomado';
 
 
-CREATE TABLE IF NOT EXISTS `texto` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `idpar` int(10) DEFAULT NULL COMMENT 'hace join con id post',
-  `contenido` longtext COMMENT 'hace join con id post',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='contiene el texto del post';
+CREATE TABLE IF NOT EXISTS `Post` (
+  `PostId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `DisplayName` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `Approved` datetime NOT NULL DEFAULT '1900-01-01 00:00:00',
+  `Autor` tinyint(4) NOT NULL,
+  `CategoryId` tinyint(4) NOT NULL,
+  PRIMARY KEY (`PostId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 COMMENT='tabla que contiene las publicaciones\r\ncategoria hace join con tabla categorias';
+
+
+CREATE TABLE IF NOT EXISTS `Message` (
+  `MessageId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `PostId` int(10) unsigned NOT NULL COMMENT 'hace join con id Post',
+  `DisplayName` longtext COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`MessageId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 COMMENT='contiene el texto del post';
 
